@@ -85,6 +85,11 @@ export default class Game extends Phaser.Scene {
       fill: "#000",
     });
 
+    this.gameovertext = this.add.text(270, 270, `GAME OVER`, {
+      fontSize: "50px",
+      fill: "#000"
+    });
+
     this.physics.add.collider(this.player, this.platforms);
 
     this.physics.add.collider(this.stars, this.platforms);
@@ -160,5 +165,9 @@ export default class Game extends Phaser.Scene {
     this.player.anims.play("turn");
 
     this.gameOver = true;
+
+    if (this.gameOver = true) {
+      this.gameovertext.setText(`GAME OVER`);
+    }
   }
 }
