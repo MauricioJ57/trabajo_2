@@ -78,6 +78,7 @@ export default class Game extends Phaser.Scene {
     this.bombs = this.physics.add.group();
 
     this.score = 0;
+    this.timer = 30;
     this.gameOver = false;
 
     this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
@@ -88,6 +89,11 @@ export default class Game extends Phaser.Scene {
     this.gameovertext = this.add.text(270, 270, `GAME OVER`, {
       fontSize: "50px",
       fill: "#000"
+    });
+
+    this.countdown = this.add.text(600, 16, `Timer: ${this.timer}`, {
+      fontSize: "32px",
+      fill: "#000",
     });
 
     this.physics.add.collider(this.player, this.platforms);
@@ -130,6 +136,7 @@ export default class Game extends Phaser.Scene {
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
     }
+    this.countdown.setText(`Timer: ${this.timer}`);
   }
 
   collectStar(player, star) {
