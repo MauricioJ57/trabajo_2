@@ -90,6 +90,7 @@ export default class Game extends Phaser.Scene {
       fontSize: "50px",
       fill: "#000"
     });
+    this.gameovertext.visible = false;
 
     this.countdown = this.add.text(600, 16, `Timer: ${this.timer}`, {
       fontSize: "32px",
@@ -175,6 +176,7 @@ export default class Game extends Phaser.Scene {
 
     if (this.gameOver = true) {
       this.gameovertext.setText(`GAME OVER`);
+      this.gameovertext.visible = true;
     }
   }
 }
