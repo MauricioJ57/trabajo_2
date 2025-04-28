@@ -64,6 +64,9 @@ export default class Game extends Phaser.Scene {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.restartKey = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.R
+    ); // asigna la tecla para reiniciar el juego
 
     this.stars = this.physics.add.group({
       key: "star",
@@ -78,8 +81,8 @@ export default class Game extends Phaser.Scene {
     this.bombs = this.physics.add.group();
 
     this.score = 0;
-    this.timer = 30;
-    this.countdown = this.contador();
+    this.timer = 30; // asigna variable del timer
+    this.countdown = this.contador(); // crea la variable para realizar el conteo regresivo
     this.gameOver = false;
 
     this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
@@ -90,13 +93,13 @@ export default class Game extends Phaser.Scene {
     this.gameovertext = this.add.text(270, 270, `GAME OVER`, {
       fontSize: "50px",
       fill: "#000"
-    });
-    this.gameovertext.visible = false;
+    }); //crea el texto de gameover
+    this.gameovertext.visible = false; //lo vuelve invisible para luego activarlo con una funcion en update
 
     this.countdown = this.add.text(600, 16, `Timer: ${this.timer}`, {
       fontSize: "32px",
       fill: "#000",
-    });
+    }); //crea el timer
 
     this.physics.add.collider(this.player, this.platforms);
 
@@ -133,6 +136,8 @@ export default class Game extends Phaser.Scene {
       this.player.setVelocityX(0);
 
       this.player.anims.play("turn");
+    } if (this.restartKey.isDown) {
+      this.scene.start("game"); // realiza la operacion para reconocer la tecla r
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
@@ -178,16 +183,16 @@ export default class Game extends Phaser.Scene {
     if (this.gameOver = true) {
       this.gameovertext.setText(`GAME OVER`);
       this.gameovertext.visible = true;
-    }
+    } // realiza la operacion para cuando se muestre el gameover en pantalla
   }
 
-  contador() {
+  contador() { //crea una funcion para el timer
     this.timer = 30;
     this.time.addEvent({
-      delay: 1000, // ms
+      delay: 1000, // tiempo en milisigundos
       callback: () => {
         if (this.timer > 0) {
-          this.timer--;
+          this.timer--; // marca si el timer debe disminuir o elevar su valor
         }
         if (this.timer === 0 && !this.gameOver) {
           this.gameOver = true;
@@ -196,9 +201,9 @@ export default class Game extends Phaser.Scene {
           this.physics.pause();
           this.player.setTint(0xff0000);
           this.player.anims.play("turn");
-        }
+        } // el timer se detiene y muestra el gameover en pantalla
       },
-      loop: true,
+      loop: true, // hace que el timer se repita cada vez que inicia la escena
     });
   }
 }
