@@ -79,6 +79,7 @@ export default class Game extends Phaser.Scene {
 
     this.score = 0;
     this.timer = 30;
+    this.countdown = this.contador();
     this.gameOver = false;
 
     this.scoreText = this.add.text(16, 16, `Score: ${this.score}`, {
@@ -178,5 +179,26 @@ export default class Game extends Phaser.Scene {
       this.gameovertext.setText(`GAME OVER`);
       this.gameovertext.visible = true;
     }
+  }
+
+  contador() {
+    this.timer = 30;
+    this.time.addEvent({
+      delay: 1000, // ms
+      callback: () => {
+        if (this.timer > 0) {
+          this.timer--;
+        }
+        if (this.timer === 0 && !this.gameOver) {
+          this.gameOver = true;
+          this.gameovertext.setText(`GAME OVER`);
+          this.gameovertext.visible = true;
+          this.physics.pause();
+          this.player.setTint(0xff0000);
+          this.player.anims.play("turn");
+        }
+      },
+      loop: true,
+    });
   }
 }
